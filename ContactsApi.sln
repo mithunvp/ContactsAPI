@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{45798B24-6E88-4CBC-86C6-80EE973764C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39A32F79-C325-4042-A14B-3BDFD774EFF1}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ContactsApi", "src\ContactsApi\ContactsApi.xproj", "{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD8B5C91-B6D2-4425-82A1-85F1CABA2A67} = {45798B24-6E88-4CBC-86C6-80EE973764C4}
+	EndGlobalSection
+EndGlobal
