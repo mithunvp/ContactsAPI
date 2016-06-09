@@ -13,6 +13,23 @@ namespace ContactsApi.Repository
             ContactsList.Add(item);
         }
 
+        public bool CheckValidUserKey(string reqkey)
+        {
+            var userkeyList = new List<string>();
+            userkeyList.Add("28236d8ec201df516d0f6472d516d72d");
+            userkeyList.Add("38236d8ec201df516d0f6472d516d72c");
+            userkeyList.Add("48236d8ec201df516d0f6472d516d72b");
+
+            if (userkeyList.Contains(reqkey))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public Contacts Find(string key)
         {
             return ContactsList

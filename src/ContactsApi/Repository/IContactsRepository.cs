@@ -1,8 +1,5 @@
 ﻿using ContactsApi.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ContactsApi.Repository
 {
@@ -13,5 +10,7 @@ namespace ContactsApi.Repository
         Contacts Find(string key);
         void Remove(string Id);
         void Update(Contacts item);
+
+        bool CheckValidUserKey(string reqkey);
     }
 }
