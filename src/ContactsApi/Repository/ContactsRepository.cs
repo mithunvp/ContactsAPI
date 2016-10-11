@@ -1,16 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ContactsApi.Models;
+using ContactsApi.Contexts;
 
 namespace ContactsApi.Repository
 {
     public class ContactsRepository : IContactsRepository
     {
+        ContactsContext _context;
+        public ContactsRepository(ContactsContext context)
+        {
+            _context = context;
+        }
         static List<Contacts> ContactsList = new List<Contacts>();
 
         public void Add(Contacts item)
         {
-            ContactsList.Add(item);
+            //ContactsList.Add(item);
+            _context.Contacts.Add(item);
+            _context.SaveChanges();
         }
 
         public bool CheckValidUserKey(string reqkey)
@@ -32,6 +40,7 @@ namespace ContactsApi.Repository
 
         public Contacts Find(string key)
         {
+            // ToDo - Integrate with EF Core, DbSet.Find not available yet
             return ContactsList
                 .Where(e => e.MobilePhone.Equals(key))
                 .SingleOrDefault();
@@ -39,12 +48,14 @@ namespace ContactsApi.Repository
 
         public IEnumerable<Contacts> GetAll()
         {
-            ContactsList.Add(new Contacts() {FirstName ="Mithun", MobilePhone = "2345" });
-            return ContactsList;
+            //ContactsList.Add(new Contacts() {FirstName ="Mithun", MobilePhone = "2345" });
+
+            return _context.Contacts.ToList();
         }
 
         public void Remove(string Id)
         {
+            // ToDo - Integrate with EF Core
             var itemToRemove = ContactsList.SingleOrDefault(r => r.MobilePhone == Id);
             if (itemToRemove != null)
                 ContactsList.Remove(itemToRemove);
@@ -52,6 +63,7 @@ namespace ContactsApi.Repository
 
         public void Update(Contacts item)
         {
+            // ToDo - Integrate with EF Core
             var itemToUpdate = ContactsList.SingleOrDefault(r => r.MobilePhone == item.MobilePhone);
             if (itemToUpdate != null)
             {
