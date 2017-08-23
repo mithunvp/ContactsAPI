@@ -1,8 +1,7 @@
 ﻿using ContactsApi.Models;
 using ContactsApi.Repository;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ContactsApi.Controllers
 {
@@ -17,9 +16,10 @@ namespace ContactsApi.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Contacts> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return ContactsRepo.GetAll();
+            var contactList =  await ContactsRepo.GetAll();
+            return Ok(contactList);
         }
 
         [HttpGet("{id}", Name = "GetContacts")]

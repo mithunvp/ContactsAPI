@@ -2,6 +2,8 @@
 using System.Linq;
 using ContactsApi.Models;
 using ContactsApi.Contexts;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContactsApi.Repository
 {
@@ -11,22 +13,27 @@ namespace ContactsApi.Repository
         public ContactsRepository(ContactsContext context)
         {
             _context = context;
-        }
-        static List<Contacts> ContactsList = new List<Contacts>();
+        }       
 
-        public void Add(Contacts item)
+        public async Task Add(Contacts item)
+        {            
+            await _context.Contacts.AddAsync(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Contacts>> GetAll()
         {
-            //ContactsList.Add(item);
-            _context.Contacts.Add(item);
-            _context.SaveChanges();
+            return await _context.Contacts.ToListAsync();
         }
 
         public bool CheckValidUserKey(string reqkey)
         {
-            var userkeyList = new List<string>();
-            userkeyList.Add("28236d8ec201df516d0f6472d516d72d");
-            userkeyList.Add("38236d8ec201df516d0f6472d516d72c");
-            userkeyList.Add("48236d8ec201df516d0f6472d516d72b");
+            var userkeyList = new List<string>
+            {
+                "28236d8ec201df516d0f6472d516d72d",
+                "38236d8ec201df516d0f6472d516d72c",
+                "48236d8ec201df516d0f6472d516d72b"
+            };
 
             if (userkeyList.Contains(reqkey))
             {
@@ -38,33 +45,26 @@ namespace ContactsApi.Repository
             }
         }
 
-        public Contacts Find(string key)
+        public async Task<Contacts> Find(string key)
         {
-            // ToDo - Integrate with EF Core, DbSet.Find not available yet
-            return ContactsList
+            return await _context.Contacts
                 .Where(e => e.MobilePhone.Equals(key))
-                .SingleOrDefault();
-        }
+                .SingleOrDefaultAsync();
+        }       
 
-        public IEnumerable<Contacts> GetAll()
+        public async Task Remove(string Id)
         {
-            //ContactsList.Add(new Contacts() {FirstName ="Mithun", MobilePhone = "2345" });
-
-            return _context.Contacts.ToList();
-        }
-
-        public void Remove(string Id)
-        {
-            // ToDo - Integrate with EF Core
-            var itemToRemove = ContactsList.SingleOrDefault(r => r.MobilePhone == Id);
+            var itemToRemove = await _context.Contacts.SingleOrDefaultAsync(r => r.MobilePhone == Id);
             if (itemToRemove != null)
-                ContactsList.Remove(itemToRemove);
+            {
+                _context.Contacts.Remove(itemToRemove);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public void Update(Contacts item)
-        {
-            // ToDo - Integrate with EF Core
-            var itemToUpdate = ContactsList.SingleOrDefault(r => r.MobilePhone == item.MobilePhone);
+        public async Task Update(Contacts item)
+        {            
+            var itemToUpdate = await _context.Contacts.SingleOrDefaultAsync(r => r.MobilePhone == item.MobilePhone);
             if (itemToUpdate != null)
             {
                 itemToUpdate.FirstName = item.FirstName;
@@ -76,6 +76,7 @@ namespace ContactsApi.Repository
                 itemToUpdate.MobilePhone = item.MobilePhone;
                 itemToUpdate.DateOfBirth = item.DateOfBirth;
                 itemToUpdate.AnniversaryDate = item.AnniversaryDate;
+                await _context.SaveChangesAsync();
             }
         }
     }
